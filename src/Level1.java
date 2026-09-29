@@ -6,6 +6,7 @@ public class Level1 implements Runnable {
     private Container content;
     private Frog frogger;
     private Rectangle waterHazard;
+    private Log log;
 
     private Thread t;
 
@@ -36,12 +37,14 @@ public class Level1 implements Runnable {
 	public Level1(Container content) {
         this.content = content;
         this.background = new Sprite(0, 0, GameProperties.SCREEN_WIDTH, GameProperties.SCREEN_HEIGHT, "level1Background.png");
-        this.frogger = new Frog(390, 720, content);
+        this.frogger = new Frog(390, 720, this.content);
         this.waterHazard = new Rectangle(0, 0, GameProperties.SCREEN_WIDTH, 360);
+        this.log = new Log(0, 300, this.content, this.frogger);
 	}
 
 	public void display() {
         this.content.add(this.frogger.lbl);
+        this.content.add(this.log.lbl);
         this.content.add(this.background.lbl);
 		this.content.setFocusable(true);
 		t = new Thread(this, "Level1");
@@ -51,9 +54,13 @@ public class Level1 implements Runnable {
 	@Override
 	public void run() {
 		while(true) {
-			if (frogger.hitbox.intersects(this.waterHazard)) {
-				System.out.println("drowning");
-			}
+			int health = 1;
+
+			if (frogger.hitbox.intersects(waterHazard)) health--;
+
+			if (frogger.hitbox.intersects(log.hitbox)) health++;
+
+			if (health <= 0) System.out.println("Dead");
 
 			try {
 				Thread.sleep(200);
