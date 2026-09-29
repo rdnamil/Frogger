@@ -39,7 +39,7 @@ public class Level1 implements Runnable {
         this.background = new Sprite(0, 0, GameProperties.SCREEN_WIDTH, GameProperties.SCREEN_HEIGHT, "level1Background.png");
         this.frogger = new Frog(390, 720, this.content);
         this.waterHazard = new Rectangle(0, 0, GameProperties.SCREEN_WIDTH, 360);
-        this.log = new Log(0, 300, this.content, this.frogger);
+        this.log = new Log(0, 300, -1, 5, this.content, this.frogger);
 	}
 
 	public void display() {
