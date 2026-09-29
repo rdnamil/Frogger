@@ -1,9 +1,13 @@
 import java.awt.Container;
+import java.awt.Rectangle;
 
-public class Level1 {
+public class Level1 implements Runnable {
     private Sprite background;
     private Container content;
     private Frog frogger;
+    private Rectangle waterHazard;
+
+    private Thread t;
 
 	public Sprite getBackground() {
 		return background;
@@ -33,12 +37,36 @@ public class Level1 {
         this.content = content;
         this.background = new Sprite(0, 0, GameProperties.SCREEN_WIDTH, GameProperties.SCREEN_HEIGHT, "level1Background.png");
         this.frogger = new Frog(390, 720, content);
+        this.waterHazard = new Rectangle(0, 0, GameProperties.SCREEN_WIDTH, 360);
 	}
 
 	public void display() {
         this.content.add(this.frogger.lbl);
-        this.frogger.lbl.setLocation(this.frogger.x, this.frogger.y);
         this.content.add(this.background.lbl);
 		this.content.setFocusable(true);
+		t = new Thread(this, "Level1");
+		t.start();
+	}
+
+	@Override
+	public void run() {
+		while(true) {
+			if (frogger.hitbox.intersects(this.waterHazard)) {
+				System.out.println("drowning");
+			}
+
+			try {
+				Thread.sleep(200);
+
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+
+			} finally {
+
+			}
+		}
 	}
 }
