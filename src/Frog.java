@@ -60,25 +60,25 @@ public class Frog extends Sprite implements KeyListener, ActionListener {
 		switch (arg0.getKeyCode()) {
 			case KeyEvent.VK_UP:
 				if (this.y -GameProperties.CHARACTER_STEP >= 0) {
-					this.y = this.y -GameProperties.CHARACTER_STEP;
+					this.setY(this.y -GameProperties.CHARACTER_STEP);
 					this.setDir(0);
 				}
 				break;
 			case KeyEvent.VK_DOWN:
 				if (this.y +GameProperties.CHARACTER_STEP <= GameProperties.SCREEN_HEIGHT -this.height) {
-					this.y = this.y +GameProperties.CHARACTER_STEP;
+					this.setY(this.y +GameProperties.CHARACTER_STEP);
 					this.setDir(1);
 				}
 				break;
 			case KeyEvent.VK_LEFT:
 				if (this.getX() -GameProperties.CHARACTER_STEP >= 0) {
-					this.x = this.getX() -GameProperties.CHARACTER_STEP;
+					this.setX(this.x -GameProperties.CHARACTER_STEP);
 					this.setDir(2);
 				}
 				break;
 			case KeyEvent.VK_RIGHT:
 				if (this.getX() +GameProperties.CHARACTER_STEP <= GameProperties.SCREEN_WIDTH -this.width) {
-					this.x = this.getX() +GameProperties.CHARACTER_STEP;
+					this.setX(this.x +GameProperties.CHARACTER_STEP);
 					this.setDir(3);
 				}
 				break;
