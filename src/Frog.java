@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import javax.swing.ImageIcon;
 
 public class Frog extends Sprite implements KeyListener, ActionListener {
     private int dir;
@@ -14,6 +15,20 @@ public class Frog extends Sprite implements KeyListener, ActionListener {
 
 	public void setDir(int dir) {
 		this.dir = dir;
+		switch (dir) {
+            case 0:
+                this.src = "frog_up.png";
+                break;
+            case 1:
+                this.src = "frog_down.png";
+                break;
+            case 2:
+                this.src = "frog_left.png";
+                break;
+            case 3:
+                this.src = "frog_right.png";
+                break;
+		}
 	}
 
 	public Container getContent() {
@@ -25,13 +40,13 @@ public class Frog extends Sprite implements KeyListener, ActionListener {
 	}
 
 	public Frog(Container content) {
-        super(0, 0, 60, 60, "frog.png");
+        super(0, 0, 60, 60, "frog_up.png");
         this.dir = 0;
         this.content = content;
     }
 
     public Frog(int x, int y, Container content) {
-        super(x, y, 60, 60, "frog.png");
+        super(x, y, 60, 60, "frog_up.png");
         this.dir = 0;
         this.content = content;
         this.content.addKeyListener(this);
@@ -58,18 +73,19 @@ public class Frog extends Sprite implements KeyListener, ActionListener {
 			case KeyEvent.VK_LEFT:
 				if (this.getX() -GameProperties.CHARACTER_STEP >= 0) {
 					this.x = this.getX() -GameProperties.CHARACTER_STEP;
-					this.setDir(3);
+					this.setDir(2);
 				}
 				break;
 			case KeyEvent.VK_RIGHT:
 				if (this.getX() +GameProperties.CHARACTER_STEP <= GameProperties.SCREEN_WIDTH -this.width) {
 					this.x = this.getX() +GameProperties.CHARACTER_STEP;
-					this.setDir(4);
+					this.setDir(3);
 				}
 				break;
 		}
 
 		this.lbl.setLocation(this.getX(), this.y);
+		this.lbl.setIcon(new ImageIcon(getClass().getResource("assets/" +this.src)));
 	}
 
 	@Override
