@@ -10,7 +10,7 @@
                 {
                     "build_cmd": "",
                     "name": "run",
-                    "run_cmd": "java %n"
+                    "run_cmd": "cd %w && java Main"
                 }
             ]
         }
