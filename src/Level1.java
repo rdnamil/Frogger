@@ -32,12 +32,13 @@ public class Level1 {
 	public Level1(Container content) {
         this.content = content;
         this.background = new Sprite(0, 0, GameProperties.SCREEN_WIDTH, GameProperties.SCREEN_HEIGHT, "level1Background.png");
-        this.frogger = new Frog(390, 720);
+        this.frogger = new Frog(390, 720, content);
 	}
 
 	public void display() {
         this.content.add(this.frogger.lbl);
         this.frogger.lbl.setLocation(this.frogger.x, this.frogger.y);
         this.content.add(this.background.lbl);
+		this.content.setFocusable(true);
 	}
 }
