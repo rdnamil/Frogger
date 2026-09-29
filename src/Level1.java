@@ -1,35 +1,16 @@
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import java.awt.Container;
 
 public class Level1 {
-    private String bakSrc;
-    private JLabel bakLbl;
-    private ImageIcon bakImg;
+    private Sprite background;
     private Container content;
+    private Frog frogger;
 
-	public String getBakSrc() {
-		return bakSrc;
+	public Sprite getBackground() {
+		return background;
 	}
 
-	public void setBakSrc(String bakSrc) {
-		this.bakSrc = bakSrc;
-	}
-
-	public JLabel getBakLbl() {
-		return bakLbl;
-	}
-
-	public void setBakLbl(JLabel bakLbl) {
-		this.bakLbl = bakLbl;
-	}
-
-	public ImageIcon getBakImg() {
-		return bakImg;
-	}
-
-	public void setBakImg(ImageIcon bakImg) {
-		this.bakImg = bakImg;
+	public void setBackground(Sprite background) {
+		this.background = background;
 	}
 
 	public Container getContent() {
@@ -40,17 +21,23 @@ public class Level1 {
 		this.content = content;
 	}
 
+	public Frog getFrogger() {
+		return frogger;
+	}
+
+	public void setFrogger(Frog frogger) {
+		this.frogger = frogger;
+	}
+
 	public Level1(Container content) {
         this.content = content;
-        this.bakSrc = "level1Background.png";
-        this.bakLbl = new JLabel();
-        this.bakImg = new ImageIcon(getClass().getResource("assets/" +this.bakSrc));
+        this.background = new Sprite(0, 0, GameProperties.SCREEN_WIDTH, GameProperties.SCREEN_HEIGHT, "level1Background.png");
+        this.frogger = new Frog(390, 720);
 	}
 
 	public void display() {
-        this.bakLbl.setIcon(this.bakImg);
-        this.bakLbl.setSize(GameProperties.SCREEN_WIDTH, GameProperties.SCREEN_HEIGHT);
-        this.content.add(this.bakLbl);
-        this.bakLbl.setLocation(0, 0);
+        this.content.add(this.frogger.lbl);
+        this.frogger.lbl.setLocation(this.frogger.x, this.frogger.y);
+        this.content.add(this.background.lbl);
 	}
 }
