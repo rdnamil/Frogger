@@ -10,6 +10,12 @@ public class Frog extends Sprite {
 	}
 
     public Frog() {
-        super(0, 0, 0, 0, "frog.png");
+        super(0, 0, 60, 60, "frog.png");
+        this.dir = 0;
+    }
+
+    public Frog(int x, int y) {
+        super(x, y, 60, 60, "frog.png");
+        this.dir = 0;
     }
 }
