@@ -43,6 +43,7 @@ public class Frog extends Sprite implements KeyListener, ActionListener {
         super(0, 0, 60, 60, "frog_up.png");
         this.dir = 0;
         this.content = content;
+        this.lbl.setLocation(this.x, this.y);
     }
 
     public Frog(int x, int y, Container content) {
@@ -50,6 +51,7 @@ public class Frog extends Sprite implements KeyListener, ActionListener {
         this.dir = 0;
         this.content = content;
         this.content.addKeyListener(this);
+        this.lbl.setLocation(this.x, this.y);
     }
 
     @Override
@@ -84,7 +86,7 @@ public class Frog extends Sprite implements KeyListener, ActionListener {
 				break;
 		}
 
-		this.lbl.setLocation(this.getX(), this.y);
+		this.lbl.setLocation(this.x, this.y);
 		this.lbl.setIcon(new ImageIcon(getClass().getResource("assets/" +this.src)));
 	}
 
