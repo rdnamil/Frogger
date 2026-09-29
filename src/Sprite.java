@@ -11,7 +11,6 @@ public class Sprite {
     protected String src;
     protected Rectangle hitbox;
     protected JLabel lbl;
-    protected ImageIcon img;
 
 	public int getX() {
 		return x;
@@ -73,14 +72,6 @@ public class Sprite {
 		this.lbl = lbl;
 	}
 
-	public ImageIcon getImg() {
-		return img;
-	}
-
-	public void setImg(ImageIcon img) {
-		this.img = img;
-	}
-
 	public Sprite() {
         super();
         this.hitbox = new Rectangle(this.x, this.y, this.width, this.height);
@@ -93,9 +84,8 @@ public class Sprite {
         this.width = width;
         this.height = height;
         this.src = src;
-        this.img = new ImageIcon(getClass().getResource("assets/" +this.src));
         this.lbl = new JLabel();
-        this.lbl.setIcon(this.img);
+        this.lbl.setIcon(new ImageIcon(getClass().getResource("assets/" +this.src)));
         this.lbl.setSize(this.width, this.height);
         this.hitbox = new Rectangle(this.x, this.y, this.width, this.height);
 	}
