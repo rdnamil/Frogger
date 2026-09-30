@@ -8,7 +8,7 @@ public class Level1 implements Runnable {
     private Frog frogger;
     private Rectangle waterHazard;
     private Log log;
-    private Car car;
+    private Car[] cars = new Car[3];
 
     private Thread t;
 
@@ -41,14 +41,22 @@ public class Level1 implements Runnable {
         this.background = new Sprite(0, 0, GameProperties.SCREEN_WIDTH, GameProperties.SCREEN_HEIGHT, "level1Background.png");
         this.frogger = new Frog(390, 720, this.content);
         this.waterHazard = new Rectangle(0, 0, GameProperties.SCREEN_WIDTH, 360);
-        this.log = new Log(0, 300, 1, 5, this.content, this.frogger);
-        this.car = new Car(0, 660, 1, 10, this.content);
+        this.log = new Log(0, 300, 1, 2, this.content, this.frogger);
+        // this.car = new Car(0, 660, 1, 10, this.content);
+
+        // init cars
+        for (int c = 0; c < cars.length; c++) {
+			int x = GameProperties.SCREEN_WIDTH /3;
+
+			cars[c] = new Car(x *c, 660, 1, 3, this.content);
+        }
 	}
 
 	public void display() {
         this.content.add(this.frogger.lbl);
         this.content.add(this.log.lbl);
-        this.content.add(this.car.lbl);
+        // this.content.add(this.car.lbl);
+        for (Car car : cars) this.content.add(car.lbl);
         this.content.add(this.background.lbl);
 		this.content.setFocusable(true);
 		t = new Thread(this, "Level1");
@@ -60,7 +68,7 @@ public class Level1 implements Runnable {
 		while(true) {
 			int health = 1;
 
-			if (frogger.hitbox.intersects(car.hitbox)) health--;
+			// if (frogger.hitbox.intersects(car.hitbox)) health--;
 
 			if (frogger.hitbox.intersects(waterHazard)) health--;
 
@@ -73,9 +81,8 @@ public class Level1 implements Runnable {
 				frogger.lbl.setIcon(new ImageIcon(getClass().getResource("assets/" +frogger.src)));
 			}
 
-
 			try {
-				Thread.sleep(200);
+				Thread.sleep(17);
 
 			} catch (InterruptedException e) {
 				e.printStackTrace();

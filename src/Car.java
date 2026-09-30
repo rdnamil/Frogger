@@ -53,7 +53,7 @@ public class Car extends Sprite implements Runnable {
             lbl.setLocation(x, y);
 
 			try {
-				Thread.sleep(200);
+				Thread.sleep(17);
 
 			} catch (InterruptedException e) {
 				e.printStackTrace();
