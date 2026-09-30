@@ -1,8 +1,5 @@
-import java.awt.Container;
-
 public class Log extends Sprite implements Runnable {
     private int dir;
-    private Container content;
     private Frog frogger;
     private int speed;
 
@@ -16,14 +13,6 @@ public class Log extends Sprite implements Runnable {
 		this.dir = dir;
 	}
 
-	public Container getContent() {
-		return content;
-	}
-
-	public void setContent(Container content) {
-		this.content = content;
-	}
-
 	public Frog getFrogger() {
 		return frogger;
 	}
@@ -32,22 +21,20 @@ public class Log extends Sprite implements Runnable {
 		this.frogger = frogger;
 	}
 
-	public Log(Container content, Frog frogger) {
+	public Log(Frog frogger) {
         super(0, 0, 150, 60, "log.png");
         this.dir = 1;
-        this.content = content;
+		this.speed = 2;
         this.frogger = frogger;
-        this.speed = 5;
         t = new Thread(this, "Level1");
 		t.start();
     }
 
-    public Log(int x, int y, int dir, int speed, Container content, Frog frogger) {
+    public Log(int x, int y, int dir, int speed, Frog frogger) {
         super(x, y, 150, 60, "log.png");
         this.dir = dir;
-        this.content = content;
+		this.speed = speed;
         this.frogger = frogger;
-        this.speed = speed;
         t = new Thread(this, "Level1");
 		t.start();
     }
@@ -66,8 +53,6 @@ public class Log extends Sprite implements Runnable {
             if (pos > GameProperties.SCREEN_WIDTH +width) setX(-width);
             else if (pos < -width) setX(GameProperties.SCREEN_WIDTH +width);
             else setX(pos);
-
-            lbl.setLocation(x, y);
 
 			try {
 				Thread.sleep(17);

@@ -7,7 +7,7 @@ public class Level1 implements Runnable {
     private Container content;
     private Frog frogger;
     private Rectangle waterHazard;
-    private Log log;
+    private Log[][] logs = new Log[5][3];
     private Car[][] cars = new Car[5][3];
 
     private Thread t;
@@ -41,33 +41,31 @@ public class Level1 implements Runnable {
         this.background = new Sprite(0, 0, GameProperties.SCREEN_WIDTH, GameProperties.SCREEN_HEIGHT, "level1Background.png");
         this.frogger = new Frog(390, 720, this.content);
         this.waterHazard = new Rectangle(0, 0, GameProperties.SCREEN_WIDTH, 360);
-        this.log = new Log(0, 300, 1, 2, this.content, this.frogger);
-        // this.car = new Car(0, 660, 1, 10, this.content);
 
-        // init cars
-   //      for (int c = 0; c < cars.length; c++) {
-			// int x = GameProperties.SCREEN_WIDTH /3;
-   //
-			// cars[c] = new Car(x *c, 660, 1, 3, this.content);
-   //      }
+        for (int r = 0; r < logs.length; r++) for (int c = 0; c < logs[r].length; c++) {
+				logs[r][c] = new Log(
+					GameProperties.SCREEN_WIDTH /3 *c +120 *r,
+					300 -60 *r,
+					r %2 > 0? -1 : 1,
+					2,
+					this.frogger
+				);
+			}
 
-		for (int r = 0; r < cars.length; r++) {
-			for (int c = 0; c < cars[r].length; c++) {
+		for (int r = 0; r < cars.length; r++) for (int c = 0; c < cars[r].length; c++) {
 				cars[r][c] = new Car(
 					GameProperties.SCREEN_WIDTH /3 *c +60 *r,
 					660 -60 *r,
 					r %2 > 0? -1 : 1,
-					2, this.content
+					2,
+					(r %4) +1
 				);
 			}
-		}
 	}
 
 	public void display() {
         this.content.add(this.frogger.lbl);
-        this.content.add(this.log.lbl);
-        // this.content.add(this.car.lbl);
-        // for (Car car : cars) this.content.add(car.lbl);
+		for (Log[] row : logs) for (Log log : row) this.content.add(log.lbl);
         for (Car[] row : cars) for (Car car : row) this.content.add(car.lbl);
         this.content.add(this.background.lbl);
 		this.content.setFocusable(true);
@@ -81,11 +79,10 @@ public class Level1 implements Runnable {
 			int health = 1;
 
 			for (Car[] row : cars) for (Car car : row) if (frogger.hitbox.intersects(car.hitbox)) health--;
-			// if (frogger.hitbox.intersects(car.hitbox)) health--;
+
+			for (Log[] row : logs) for (Log log : row) if (frogger.hitbox.intersects(log.hitbox)) health++;
 
 			if (frogger.hitbox.intersects(waterHazard)) health--;
-
-			if (frogger.hitbox.intersects(log.hitbox)) health++;
 
 			if (frogger.getX() < 0 || frogger.getX() > GameProperties.SCREEN_WIDTH -frogger.getWidth()) health--;
 

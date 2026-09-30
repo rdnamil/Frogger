@@ -19,6 +19,7 @@ public class Sprite {
 	public void setX(int x) {
 		this.x = x;
 		this.hitbox.x = x;
+		this.lbl.setLocation(this.x, this.y);
 	}
 
 	public int getY() {
@@ -28,6 +29,7 @@ public class Sprite {
 	public void setY(int y) {
 		this.y = y;
 		this.hitbox.y = y;
+		this.lbl.setLocation(this.x, this.y);
 	}
 
 	public int getWidth() {
@@ -54,6 +56,7 @@ public class Sprite {
 
 	public void setSrc(String src) {
 		this.src = src;
+		this.lbl.setIcon(new ImageIcon(getClass().getResource("assets/" +this.src)));
 	}
 
 	public Rectangle getHitbox() {
