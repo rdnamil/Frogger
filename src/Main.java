@@ -10,6 +10,7 @@ public class Main extends JFrame implements Runnable {
     private Log[][] logs = new Log[5][3];
     private Car[][] cars = new Car[5][3];
     private Goal[] goals = new Goal[5];
+    private Boolean running;
     private Thread t;
 
     public Main() {
@@ -48,13 +49,30 @@ public class Main extends JFrame implements Runnable {
 			0
 		);
 
+        this.content.setFocusable(true);
+
+		this.running = false;
+		this.t = new Thread(this, "Level1");
+		this.t.start();
+
+		this.start();
+    }
+
+    public void start() {
+        this.running = true;
+        this.content.removeAll();
 		this.content.add(this.frogger.lbl);
 		for (Log[] row : logs) for (Log log : row) this.content.add(log.lbl);
         for (Car[] row : cars) for (Car car : row) this.content.add(car.lbl);
         this.content.add(this.background.lbl);
-		this.content.setFocusable(true);
-		t = new Thread(this, "Level1");
-		t.start();
+    }
+
+    public void stop() {
+        this.running = false;
+		this.content.remove(this.frogger.lbl);
+		for (Log[] row : logs) for (Log log : row) this.content.remove(log.lbl);
+        for (Car[] row : cars) for (Car car : row) this.content.remove(car.lbl);
+        this.content.repaint();
     }
 
     public void resetFrogger() {
@@ -85,7 +103,6 @@ public class Main extends JFrame implements Runnable {
 
     @Override
 	public void run() {
-		Boolean running = true;
 		int score = 0;
 		int lives = 3;
 
@@ -126,12 +143,12 @@ public class Main extends JFrame implements Runnable {
 
 			if (lives == 0) {
 				System.out.println("You lose :(");
-				running = false;
+				this.stop();
 			}
 
 			if (score == 5) {
 				System.out.println("You win!");
-				running = false;
+				this.stop();
 			}
 
 			try {
