@@ -41,7 +41,7 @@ public class Log extends Sprite implements Runnable {
 
 	@Override
 	public void run() {
-		while(true) {
+		while(moving) {
 
             if (hitbox.intersects(frogger.hitbox)) {
                 frogger.setX(frogger.getX() +speed *dir);

@@ -81,15 +81,19 @@ public class Level1 implements Runnable {
 
 	public void resetFrogger() {
 		try {
+			this.frogger.setMoving(false);
 			Thread.sleep(1000);
 
 		} catch (InterruptedException e) {
+			this.frogger.setMoving(true);
 			e.printStackTrace();
 
 		} catch (Exception e) {
+			this.frogger.setMoving(true);
 			e.printStackTrace();
 
 		} finally {
+			this.frogger.setMoving(true);
 			this.frogger.setX(390);
 			this.frogger.setY(720);
 			this.frogger.setSrc("frog_up.png");

@@ -31,31 +31,33 @@ public class Frog extends Sprite implements KeyListener, ActionListener {
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		switch (arg0.getKeyCode()) {
-			case KeyEvent.VK_UP:
-				if (this.y -GameProperties.CHARACTER_STEP >= 0) {
-					this.setY(this.y -GameProperties.CHARACTER_STEP);
-					this.setSrc("frog_up.png");
-				}
-				break;
-			case KeyEvent.VK_DOWN:
-				if (this.y +GameProperties.CHARACTER_STEP <= GameProperties.SCREEN_HEIGHT -this.height) {
-					this.setY(this.y +GameProperties.CHARACTER_STEP);
-					this.setSrc("frog_down.png");
-				}
-				break;
-			case KeyEvent.VK_LEFT:
-				if (this.getX() -GameProperties.CHARACTER_STEP >= 0) {
-					this.setX(this.x -GameProperties.CHARACTER_STEP);
-					this.setSrc("frog_left.png");
-				}
-				break;
-			case KeyEvent.VK_RIGHT:
-				if (this.getX() +GameProperties.CHARACTER_STEP <= GameProperties.SCREEN_WIDTH -this.width) {
-					this.setX(this.x +GameProperties.CHARACTER_STEP);
-					this.setSrc("frog_right.png");
-				}
-				break;
+		if (moving) {
+			switch (arg0.getKeyCode()) {
+				case KeyEvent.VK_UP:
+					if (this.y -GameProperties.CHARACTER_STEP >= 0) {
+						this.setY(this.y -GameProperties.CHARACTER_STEP);
+						this.setSrc("frog_up.png");
+					}
+					break;
+				case KeyEvent.VK_DOWN:
+					if (this.y +GameProperties.CHARACTER_STEP <= GameProperties.SCREEN_HEIGHT -this.height) {
+						this.setY(this.y +GameProperties.CHARACTER_STEP);
+						this.setSrc("frog_down.png");
+					}
+					break;
+				case KeyEvent.VK_LEFT:
+					if (this.getX() -GameProperties.CHARACTER_STEP >= 0) {
+						this.setX(this.x -GameProperties.CHARACTER_STEP);
+						this.setSrc("frog_left.png");
+					}
+					break;
+				case KeyEvent.VK_RIGHT:
+					if (this.getX() +GameProperties.CHARACTER_STEP <= GameProperties.SCREEN_WIDTH -this.width) {
+						this.setX(this.x +GameProperties.CHARACTER_STEP);
+						this.setSrc("frog_right.png");
+					}
+					break;
+			}
 		}
 	}
 

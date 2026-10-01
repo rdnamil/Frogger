@@ -11,6 +11,7 @@ public class Sprite {
     protected String src;
     protected Rectangle hitbox;
     protected JLabel lbl;
+    protected Boolean moving;
 
 	public int getX() {
 		return x;
@@ -75,9 +76,24 @@ public class Sprite {
 		this.lbl = lbl;
 	}
 
+	public Boolean getMoving() {
+		return moving;
+	}
+
+	public void setMoving(Boolean moving) {
+		this.moving = moving;
+	}
+
 	public Sprite() {
         super();
-        this.hitbox = new Rectangle(this.x, this.y, this.width, this.height);
+        this.x = 0;
+        this.y = 0;
+        this.width = 0;
+        this.height = 0;
+        this.src = "";
+        this.hitbox = new Rectangle(x, y, width, height);
+        this.lbl = new JLabel();
+        this.moving = false;
 	}
 
 	public Sprite(int x, int y, int width, int height, String src) {
@@ -87,10 +103,11 @@ public class Sprite {
         this.width = width;
         this.height = height;
         this.src = src;
+		this.hitbox = new Rectangle(this.x, this.y, this.width, this.height);
         this.lbl = new JLabel();
         this.lbl.setIcon(new ImageIcon(getClass().getResource("assets/" +this.src)));
         this.lbl.setSize(this.width, this.height);
         this.lbl.setLocation(this.x, this.y);
-        this.hitbox = new Rectangle(this.x, this.y, this.width, this.height);
+        this.moving = true;
 	}
 }
