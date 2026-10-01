@@ -80,9 +80,20 @@ public class Level1 implements Runnable {
 	}
 
 	public void resetFrogger() {
-		this.frogger.setX(390);
-		this.frogger.setY(720);
-		// this.frogger.setSrc("frog_up.png");
+		try {
+			Thread.sleep(1000);
+
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+			this.frogger.setX(390);
+			this.frogger.setY(720);
+			this.frogger.setSrc("frog_up.png");
+		}
 	}
 
 	@Override
@@ -112,6 +123,10 @@ public class Level1 implements Runnable {
 					content.add(goal.lbl);
 					content.setComponentZOrder(goal.lbl, 0);
 					goal.setScored(true);
+
+					frogger.setX(goal.getX());
+					frogger.setY(goal.getY());
+					frogger.setSrc("goal.png");
 					resetFrogger();
 				}
 			}
