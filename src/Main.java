@@ -10,6 +10,7 @@ public class Main extends JFrame implements Runnable {
     private Log[][] logs = new Log[5][3];
     private Car[][] cars = new Car[5][3];
     private Goal[] goals = new Goal[5];
+    private Sprite[] lives = new Sprite[3];
     private Boolean running;
     private Thread t;
 
@@ -49,6 +50,14 @@ public class Main extends JFrame implements Runnable {
 			0
 		);
 
+		for (int l = 0; l < lives.length; l++) lives[l] = new Sprite(
+            810 -30 *l,
+            750,
+            30,
+            30,
+            "lives.png"
+		);
+
         this.content.setFocusable(true);
 
 		this.running = false;
@@ -62,8 +71,9 @@ public class Main extends JFrame implements Runnable {
         this.running = true;
         this.content.removeAll();
 		this.content.add(this.frogger.lbl);
-		for (Log[] row : logs) for (Log log : row) this.content.add(log.lbl);
-        for (Car[] row : cars) for (Car car : row) this.content.add(car.lbl);
+		for (Log[] row : this.logs) for (Log log : row) this.content.add(log.lbl);
+        for (Car[] row : this.cars) for (Car car : row) this.content.add(car.lbl);
+        for (Sprite lives : this.lives) this.content.add(lives.lbl);
         this.content.add(this.background.lbl);
     }
 
@@ -137,18 +147,20 @@ public class Main extends JFrame implements Runnable {
 
 			if (health == 0) {
 				lives--;
+				content.remove(this.lives[lives].lbl);
+				content.repaint();
 				frogger.setSrc("frog_dead.png");
 				resetFrogger();
 			}
 
 			if (lives == 0) {
 				System.out.println("You lose :(");
-				this.stop();
+				stop();
 			}
 
 			if (score == 5) {
 				System.out.println("You win!");
-				this.stop();
+				stop();
 			}
 
 			try {
