@@ -11,6 +11,7 @@ public class Main extends JFrame implements Runnable {
     private Car[][] cars;
     private Goal[] goals;
     private Sprite[] lives;
+    private Sprite gameOver;
     private Boolean running;
     private Thread t;
 
@@ -61,6 +62,8 @@ public class Main extends JFrame implements Runnable {
             30,
             "life.png"
 		);
+
+		gameOver = new Sprite(230, 370, 385, 40, "game_over.png");
 
         this.content.setFocusable(true);
 
@@ -159,6 +162,8 @@ public class Main extends JFrame implements Runnable {
 
 			if (lives == 0) {
 				System.out.println("You lose :(");
+				content.add(gameOver.lbl);
+				content.setComponentZOrder(gameOver.lbl, 0);
 				stop();
 			}
 
