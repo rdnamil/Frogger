@@ -1,6 +1,5 @@
 import java.awt.Container;
 import java.awt.Rectangle;
-import javax.swing.ImageIcon;
 
 public class Level1 implements Runnable {
     private Sprite background;
@@ -9,6 +8,7 @@ public class Level1 implements Runnable {
     private Rectangle waterHazard;
     private Log[][] logs = new Log[5][3];
     private Car[][] cars = new Car[5][3];
+    private Goal[] goals = new Goal[5];
 
     private Thread t;
 
@@ -61,21 +61,37 @@ public class Level1 implements Runnable {
 					(r %4) +1
 				);
 			}
+
+		for (int g = 0; g < goals.length; g++) goals[g] = new Goal(
+			30 +180 *g,
+			0
+		);
 	}
 
 	public void display() {
         this.content.add(this.frogger.lbl);
 		for (Log[] row : logs) for (Log log : row) this.content.add(log.lbl);
         for (Car[] row : cars) for (Car car : row) this.content.add(car.lbl);
+        // for (Goal goal : goals) this.content.add(goal.lbl);
         this.content.add(this.background.lbl);
 		this.content.setFocusable(true);
 		t = new Thread(this, "Level1");
 		t.start();
 	}
 
+	public void resetFrogger() {
+		this.frogger.setX(390);
+		this.frogger.setY(720);
+		// this.frogger.setSrc("frog_up.png");
+	}
+
 	@Override
 	public void run() {
-		while(true) {
+		Boolean running = true;
+		int score = 0;
+		int lives = 3;
+
+		while(running) {
 			int health = 1;
 
 			for (Car[] row : cars) for (Car car : row) if (frogger.hitbox.intersects(car.hitbox)) health--;
@@ -86,9 +102,34 @@ public class Level1 implements Runnable {
 
 			if (frogger.getX() < 0 || frogger.getX() > GameProperties.SCREEN_WIDTH -frogger.getWidth()) health--;
 
-			if (health <= 0) {
+			for (Goal goal : goals) if (frogger.hitbox.intersects(goal.hitbox)) {
+				if (goal.getScored()) {
+					health--;
+
+				} else {
+					health++;
+					score++;
+					content.add(goal.lbl);
+					content.setComponentZOrder(goal.lbl, 0);
+					goal.setScored(true);
+					resetFrogger();
+				}
+			}
+
+			if (health == 0) {
+				lives--;
 				frogger.setSrc("frog_dead.png");
-				frogger.lbl.setIcon(new ImageIcon(getClass().getResource("assets/" +frogger.src)));
+				resetFrogger();
+			}
+
+			if (lives == 0) {
+				System.out.println("You lose :(");
+				running = false;
+			}
+
+			if (score == 5) {
+				System.out.println("You win!");
+				running = false;
 			}
 
 			try {
