@@ -6,6 +6,7 @@ import java.awt.event.KeyListener;
 
 public class Frog extends Sprite implements KeyListener, ActionListener {
     private Container content;
+    private int health;
 
 	public Container getContent() {
 		return content;
@@ -15,15 +16,25 @@ public class Frog extends Sprite implements KeyListener, ActionListener {
 		this.content = content;
 	}
 
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
 	public Frog(Container content) {
         super(0, 0, 60, 60, "frog_up.png");
         this.content = content;
+        this.health = 1;
     }
 
     public Frog(int x, int y, Container content) {
         super(x, y, 60, 60, "frog_up.png");
         this.content = content;
         this.content.addKeyListener(this);
+        this.health = 1;
     }
 
     @Override

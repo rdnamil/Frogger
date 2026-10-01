@@ -124,22 +124,22 @@ public class Main extends JFrame implements Runnable {
 		int lives = 3;
 
 		while(running) {
-			int health = 1;
+			frogger.setHealth(1);
 
-			for (Car[] row : cars) for (Car car : row) if (frogger.hitbox.intersects(car.hitbox)) health--;
+			for (Car[] row : cars) for (Car car : row) if (frogger.hitbox.intersects(car.hitbox)) frogger.setHealth(frogger.getHealth() -1);
 
-			for (Log[] row : logs) for (Log log : row) if (frogger.hitbox.intersects(log.hitbox)) health++;
+			for (Log[] row : logs) for (Log log : row) if (frogger.hitbox.intersects(log.hitbox)) frogger.setHealth(frogger.getHealth() +1);
 
-			if (frogger.hitbox.intersects(waterHazard)) health--;
+			if (frogger.hitbox.intersects(waterHazard)) frogger.setHealth(frogger.getHealth() -1);
 
-			if (frogger.getX() < 0 || frogger.getX() > GameProperties.SCREEN_WIDTH -frogger.getWidth()) health--;
+			if (frogger.getX() < 0 || frogger.getX() > GameProperties.SCREEN_WIDTH -frogger.getWidth()) frogger.setHealth(frogger.getHealth() -1);
 
 			for (Goal goal : goals) if (frogger.hitbox.intersects(goal.hitbox)) {
 				if (goal.getScored()) {
-					health--;
+					frogger.setHealth(frogger.getHealth() -1);
 
 				} else {
-					health++;
+					frogger.setHealth(frogger.getHealth() +1);
 					score++;
 					content.add(goal.lbl);
 					content.setComponentZOrder(goal.lbl, 0);
@@ -152,7 +152,7 @@ public class Main extends JFrame implements Runnable {
 				}
 			}
 
-			if (health == 0) {
+			if (frogger.getHealth() == 0) {
 				lives--;
 				content.remove(this.lives[lives].lbl);
 				content.repaint();

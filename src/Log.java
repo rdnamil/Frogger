@@ -43,7 +43,7 @@ public class Log extends Sprite implements Runnable {
 	public void run() {
 		while(moving) {
 
-            if (hitbox.intersects(frogger.hitbox)) {
+            if (hitbox.intersects(frogger.hitbox) && frogger.getHealth() > 0) {
                 frogger.setX(frogger.getX() +speed *dir);
                 frogger.lbl.setLocation(frogger.getX(), frogger.getY());
             }
