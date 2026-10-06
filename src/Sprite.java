@@ -108,6 +108,6 @@ public class Sprite {
         this.lbl.setIcon(new ImageIcon(getClass().getResource("assets/" +this.src)));
         this.lbl.setSize(this.width, this.height);
         this.lbl.setLocation(this.x, this.y);
-        this.moving = true;
+        this.moving = false;
 	}
 }

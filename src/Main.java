@@ -86,10 +86,19 @@ public class Main extends JFrame implements Runnable, ActionListener {
 
     public void start() {
         this.running = true;
+        this.t = new Thread(this, "Level1");
+		this.t.start();
         this.content.removeAll();
+        this.frogger.setMoving(true);
 		this.content.add(this.frogger.lbl);
-		for (Log[] row : this.logs) for (Log log : row) this.content.add(log.lbl);
-        for (Car[] row : this.cars) for (Car car : row) this.content.add(car.lbl);
+		for (Log[] row : this.logs) for (Log log : row) {
+			log.setMoving(true);
+			this.content.add(log.lbl);
+		}
+        for (Car[] row : this.cars) for (Car car : row) {
+			car.setMoving(true);
+			this.content.add(car.lbl);
+        }
         for (Sprite lives : this.lives) this.content.add(lives.lbl);
         this.content.add(this.background.lbl);
         content.repaint();

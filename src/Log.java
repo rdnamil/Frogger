@@ -21,12 +21,18 @@ public class Log extends Sprite implements Runnable {
 		this.frogger = frogger;
 	}
 
+	public void setMoving(Boolean moving) {
+		this.moving = moving;
+		t = new Thread(this, "Log");
+		t.start();
+	}
+
 	public Log(Frog frogger) {
         super(0, 0, 150, 60, "log.png");
         this.dir = 1;
 		this.speed = 2;
         this.frogger = frogger;
-        t = new Thread(this, "Level1");
+        t = new Thread(this, "Log");
 		t.start();
     }
 
@@ -35,7 +41,7 @@ public class Log extends Sprite implements Runnable {
         this.dir = dir;
 		this.speed = speed;
         this.frogger = frogger;
-        t = new Thread(this, "Level1");
+        t = new Thread(this, "Log");
 		t.start();
     }
 
