@@ -1,8 +1,11 @@
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import java.awt.Container;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Main extends JFrame implements Runnable {
+public class Main extends JFrame implements Runnable, ActionListener {
     private Container content;
     private Sprite background;
     private Frog frogger;
@@ -12,6 +15,7 @@ public class Main extends JFrame implements Runnable {
     private Goal[] goals;
     private Sprite[] lives;
     private Sprite gameOver;
+    private JButton startBtn;
     private Boolean running;
     private Thread t;
 
@@ -71,7 +75,13 @@ public class Main extends JFrame implements Runnable {
 		this.t = new Thread(this, "Level1");
 		this.t.start();
 
-		this.start();
+        startBtn = new JButton("START");
+        startBtn.setSize(100, 45);
+        startBtn.setLocation(370, 365);
+        this.content.add(startBtn);
+        startBtn.addActionListener(this);
+        this.content.add(this.background.lbl);
+		// this.start();
     }
 
     public void start() {
@@ -82,13 +92,21 @@ public class Main extends JFrame implements Runnable {
         for (Car[] row : this.cars) for (Car car : row) this.content.add(car.lbl);
         for (Sprite lives : this.lives) this.content.add(lives.lbl);
         this.content.add(this.background.lbl);
+        content.repaint();
     }
 
     public void stop() {
         this.running = false;
+        this.frogger.setMoving(false);
 		this.content.remove(this.frogger.lbl);
-		for (Log[] row : logs) for (Log log : row) this.content.remove(log.lbl);
-        for (Car[] row : cars) for (Car car : row) this.content.remove(car.lbl);
+		for (Log[] row : logs) for (Log log : row) {
+            log.setMoving(false);
+            this.content.remove(log.lbl);
+		}
+        for (Car[] row : cars) for (Car car : row) {
+            car.setMoving(false);
+            this.content.remove(car.lbl);
+        }
         this.content.repaint();
     }
 
@@ -135,14 +153,11 @@ public class Main extends JFrame implements Runnable {
 			if (frogger.getX() < 0 || frogger.getX() > GameProperties.SCREEN_WIDTH -frogger.getWidth()) frogger.setHealth(frogger.getHealth() -1);
 
 			for (Goal goal : goals) if (frogger.hitbox.intersects(goal.hitbox)) {
-				if (goal.getScored()) {
-					frogger.setHealth(frogger.getHealth() -1);
-
-				} else {
-					frogger.setHealth(frogger.getHealth() +1);
+				if (!goal.getScored()) {
+                    frogger.setHealth(frogger.getHealth() +1);
 					score++;
 					content.add(goal.lbl);
-					content.setComponentZOrder(goal.lbl, 0);
+					content.setComponentZOrder(goal.lbl, 1);
 					goal.setScored(true);
 
 					frogger.setX(goal.getX());
@@ -185,5 +200,14 @@ public class Main extends JFrame implements Runnable {
 
 			}
 		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == startBtn) {
+            content.remove(startBtn);
+			start();
+
+		} else System.out.println("Unkown command");
 	}
 }
