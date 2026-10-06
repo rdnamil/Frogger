@@ -19,8 +19,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
     private Sprite winScreen;
     private JButton playBtn;
     private Boolean running;
-    private int score;
-    private JLabel scoreLbl;
+    private Score scoreboard;
     private Thread t;
 
     public Main() {
@@ -86,10 +85,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
 
 		this.running = false;
 
-		score = 0;
-		scoreLbl = new JLabel(String.format("SCORE: %d", score));
-		scoreLbl.setSize(GameProperties.SCREEN_WIDTH, 25);
-		scoreLbl.setLocation(0, 0);
+		scoreboard = new Score();
 
         playBtn = new JButton("START");
         playBtn.setSize(100, 45);
@@ -104,7 +100,8 @@ public class Main extends JFrame implements Runnable, ActionListener {
         this.t = new Thread(this, "Level1");
 		this.t.start();
         this.content.removeAll();
-		this.content.add(this.scoreLbl);
+		// this.content.add(this.scoreLbl);
+		content.add(scoreboard.getContent());
         this.frogger.setMoving(true);
 		this.content.add(this.frogger.lbl);
 		for (Log[] row : this.logs) for (Log log : row) {
@@ -180,8 +177,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
 			for (Goal goal : goals) if (frogger.hitbox.intersects(goal.hitbox)) {
 				if (!goal.getScored()) {
                     frogger.setHealth(frogger.getHealth() +1);
-					score++;
-					scoreLbl.setText(String.format("SCORE: %d", score));
+					scoreboard.increaseScore(1);
 					content.add(goal.lbl);
 					content.setComponentZOrder(goal.lbl, 1);
 					goal.setScored(true);
@@ -211,7 +207,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
 				stop();
 			}
 
-			if (score == 5) {
+			if (scoreboard.getScore() == 5) {
 				System.out.println("You win!");
 				content.add(winScreen.lbl);
 				content.setComponentZOrder(winScreen.lbl, 0);
