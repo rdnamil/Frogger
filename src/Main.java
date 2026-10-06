@@ -96,10 +96,11 @@ public class Main extends JFrame implements Runnable, ActionListener {
 
     public void start() {
         this.running = true;
+        this.scoreboard.setScore(0);
+        for (Goal goal : goals) goal.setScored(false);
         this.t = new Thread(this, "Level1");
 		this.t.start();
         this.content.removeAll();
-		// this.content.add(this.scoreLbl);
 		content.add(scoreboard.getContent());
         this.frogger.setMoving(true);
 		this.content.add(this.frogger.lbl);
@@ -176,7 +177,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
 			for (Goal goal : goals) if (frogger.hitbox.intersects(goal.hitbox)) {
 				if (!goal.getScored()) {
                     frogger.increaseHealth();
-					scoreboard.increaseScore(1);
+					scoreboard.increaseScore(50);
 					content.add(goal.lbl);
 					content.setComponentZOrder(goal.lbl, 1);
 					goal.setScored(true);
@@ -206,7 +207,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
 				stop();
 			}
 
-			if (scoreboard.getScore() == 5) {
+			if (scoreboard.getScore() == 250) {
 				System.out.println("You win!");
 				content.add(winScreen.lbl);
 				content.setComponentZOrder(winScreen.lbl, 0);
