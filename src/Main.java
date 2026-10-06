@@ -1,5 +1,6 @@
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import java.awt.Container;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,8 @@ public class Main extends JFrame implements Runnable, ActionListener {
     private Sprite winScreen;
     private JButton playBtn;
     private Boolean running;
+    private int score;
+    private JLabel scoreLbl;
     private Thread t;
 
     public Main() {
@@ -82,8 +85,11 @@ public class Main extends JFrame implements Runnable, ActionListener {
         this.content.setFocusable(true);
 
 		this.running = false;
-		this.t = new Thread(this, "Level1");
-		this.t.start();
+
+		score = 0;
+		scoreLbl = new JLabel(String.format("SCORE: %d", score));
+		scoreLbl.setSize(GameProperties.SCREEN_WIDTH, 25);
+		scoreLbl.setLocation(0, 0);
 
         playBtn = new JButton("START");
         playBtn.setSize(100, 45);
@@ -91,7 +97,6 @@ public class Main extends JFrame implements Runnable, ActionListener {
         this.content.add(playBtn);
         playBtn.addActionListener(this);
         this.content.add(this.background.lbl);
-		// this.start();
     }
 
     public void start() {
@@ -99,6 +104,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
         this.t = new Thread(this, "Level1");
 		this.t.start();
         this.content.removeAll();
+		this.content.add(this.scoreLbl);
         this.frogger.setMoving(true);
 		this.content.add(this.frogger.lbl);
 		for (Log[] row : this.logs) for (Log log : row) {
@@ -157,7 +163,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
 
     @Override
 	public void run() {
-		int score = 0;
+		// int score = 0;
 		int lives = 3;
 
 		while(running) {
@@ -175,6 +181,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
 				if (!goal.getScored()) {
                     frogger.setHealth(frogger.getHealth() +1);
 					score++;
+					scoreLbl.setText(String.format("SCORE: %d", score));
 					content.add(goal.lbl);
 					content.setComponentZOrder(goal.lbl, 1);
 					goal.setScored(true);
