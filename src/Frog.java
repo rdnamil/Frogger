@@ -37,6 +37,14 @@ public class Frog extends Sprite implements KeyListener, ActionListener {
         this.health = 1;
     }
 
+    public void increaseHealth() {
+		this.health++;
+    }
+
+    public void decreaseHealth() {
+		this.health--;
+    }
+
     @Override
 	public void actionPerformed(ActionEvent arg0) {}
 

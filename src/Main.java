@@ -1,6 +1,5 @@
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import java.awt.Container;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -166,17 +165,17 @@ public class Main extends JFrame implements Runnable, ActionListener {
 		while(running) {
 			frogger.setHealth(1);
 
-			for (Car[] row : cars) for (Car car : row) if (frogger.hitbox.intersects(car.hitbox)) frogger.setHealth(frogger.getHealth() -1);
+			for (Car[] row : cars) for (Car car : row) if (frogger.hitbox.intersects(car.hitbox)) frogger.decreaseHealth();
 
-			for (Log[] row : logs) for (Log log : row) if (frogger.hitbox.intersects(log.hitbox)) frogger.setHealth(frogger.getHealth() +1);
+			for (Log[] row : logs) for (Log log : row) if (frogger.hitbox.intersects(log.hitbox)) frogger.increaseHealth();
 
-			if (frogger.hitbox.intersects(waterHazard)) frogger.setHealth(frogger.getHealth() -1);
+			if (frogger.hitbox.intersects(waterHazard)) frogger.decreaseHealth();
 
-			if (frogger.getX() < 0 || frogger.getX() > GameProperties.SCREEN_WIDTH -frogger.getWidth()) frogger.setHealth(frogger.getHealth() -1);
+			if (frogger.getX() < 0 || frogger.getX() > GameProperties.SCREEN_WIDTH -frogger.getWidth()) frogger.decreaseHealth();
 
 			for (Goal goal : goals) if (frogger.hitbox.intersects(goal.hitbox)) {
 				if (!goal.getScored()) {
-                    frogger.setHealth(frogger.getHealth() +1);
+                    frogger.increaseHealth();
 					scoreboard.increaseScore(1);
 					content.add(goal.lbl);
 					content.setComponentZOrder(goal.lbl, 1);

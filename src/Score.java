@@ -59,11 +59,15 @@ public class Score {
         }
     }
 
-    public void increaseScore(int i) {
-        this.score += i;
+    public void increaseScore(int adjustment) {
+        this.score += adjustment;
+
+        for (int i = 0; i < scoreboard.length; i++) this.scoreboard[i].setSrc("scoreboard/digit_" +String.format("%04d", this.score).charAt(i) +".png");
     }
 
-    public void decreaseScore(int i) {
-        this.score -= i;
+    public void decreaseScore(int adjustment) {
+        this.score -= adjustment;
+
+        for (int i = 0; i < scoreboard.length; i++) this.scoreboard[i].setSrc("scoreboard/digit_" +String.format("%04d", this.score).charAt(i) +".png");
     }
 }
