@@ -14,8 +14,9 @@ public class Main extends JFrame implements Runnable, ActionListener {
     private Car[][] cars;
     private Goal[] goals;
     private Sprite[] lives;
-    private Sprite gameOver;
-    private JButton startBtn;
+    private Sprite gameOverScreen;
+    private Sprite winScreen;
+    private JButton playBtn;
     private Boolean running;
     private Thread t;
 
@@ -67,7 +68,16 @@ public class Main extends JFrame implements Runnable, ActionListener {
             "life.png"
 		);
 
-		gameOver = new Sprite(230, 370, 385, 40, "game_over.png");
+		gameOverScreen = new Sprite(
+			GameProperties.SCREEN_WIDTH /2 -193,
+			GameProperties.SCREEN_HEIGHT /2 -20,
+			385, 40, "game_over.png"
+		);
+		winScreen = new Sprite(
+			GameProperties.SCREEN_WIDTH /2 -144,
+			GameProperties.SCREEN_HEIGHT /2 -20,
+			287, 40, "you_win.png"
+		);
 
         this.content.setFocusable(true);
 
@@ -75,11 +85,11 @@ public class Main extends JFrame implements Runnable, ActionListener {
 		this.t = new Thread(this, "Level1");
 		this.t.start();
 
-        startBtn = new JButton("START");
-        startBtn.setSize(100, 45);
-        startBtn.setLocation(370, 365);
-        this.content.add(startBtn);
-        startBtn.addActionListener(this);
+        playBtn = new JButton("START");
+        playBtn.setSize(100, 45);
+        playBtn.setLocation(370, 420);
+        this.content.add(playBtn);
+        playBtn.addActionListener(this);
         this.content.add(this.background.lbl);
 		// this.start();
     }
@@ -186,13 +196,21 @@ public class Main extends JFrame implements Runnable, ActionListener {
 
 			if (lives == 0) {
 				System.out.println("You lose :(");
-				content.add(gameOver.lbl);
-				content.setComponentZOrder(gameOver.lbl, 0);
+				content.add(gameOverScreen.lbl);
+				content.setComponentZOrder(gameOverScreen.lbl, 0);
+				playBtn.setText("REPLAY");
+				content.add(playBtn);
+				content.setComponentZOrder(playBtn, 0);
 				stop();
 			}
 
 			if (score == 5) {
 				System.out.println("You win!");
+				content.add(winScreen.lbl);
+				content.setComponentZOrder(winScreen.lbl, 0);
+				playBtn.setText("REPLAY");
+				content.add(playBtn);
+				content.setComponentZOrder(playBtn, 0);
 				stop();
 			}
 
@@ -213,8 +231,8 @@ public class Main extends JFrame implements Runnable, ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == startBtn) {
-            content.remove(startBtn);
+		if (e.getSource() == playBtn) {
+            content.remove(playBtn);
 			start();
 
 		} else System.out.println("Unkown command");

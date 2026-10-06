@@ -32,8 +32,6 @@ public class Log extends Sprite implements Runnable {
         this.dir = 1;
 		this.speed = 2;
         this.frogger = frogger;
-        t = new Thread(this, "Log");
-		t.start();
     }
 
     public Log(int x, int y, int dir, int speed, Frog frogger) {
@@ -41,8 +39,6 @@ public class Log extends Sprite implements Runnable {
         this.dir = dir;
 		this.speed = speed;
         this.frogger = frogger;
-        t = new Thread(this, "Log");
-		t.start();
     }
 
 	@Override

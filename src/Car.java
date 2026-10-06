@@ -22,16 +22,12 @@ public class Car extends Sprite implements Runnable {
         super(0, 0, 60, 60, "car_01.png");
         this.dir = 1;
         this.speed = 5;
-        t = new Thread(this, "Car");
-		t.start();
     }
 
     public Car(int x, int y, int dir, int speed, int car) {
         super(x, y, 60, 60, "car_0" +car +".png");
         this.dir = dir;
         this.speed = speed;
-        t = new Thread(this, "Car");
-		t.start();
     }
 
 	@Override
