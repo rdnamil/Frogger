@@ -3,14 +3,14 @@
     "target_sets": [
         {
             "cmake_config": "",
-            "directory": "%B/bin",
+            "directory": "%B",
             "loaded_via_cmake": false,
             "name": "Target Set",
             "targets": [
                 {
                     "build_cmd": "",
                     "name": "run",
-                    "run_cmd": "cd %w && java Main"
+                    "run_cmd": "cd %w/bin && java -cp \".:$(xmlstarlet sel -t -m \"/classpath/classpathentry[@kind='lib']\" -v \"@path\" -n %w/.classpath | paste -sd:)\" Main"
                 }
             ]
         }
