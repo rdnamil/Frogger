@@ -114,7 +114,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
         }
         for (Sprite lives : this.lives) this.content.add(lives.lbl);
         this.content.add(this.background.lbl);
-        content.repaint();
+
     }
 
     public void stop() {
@@ -129,7 +129,6 @@ public class Main extends JFrame implements Runnable, ActionListener {
             car.setMoving(false);
             this.content.remove(car.lbl);
         }
-        this.content.repaint();
     }
 
     public void resetFrogger() {
@@ -192,7 +191,6 @@ public class Main extends JFrame implements Runnable, ActionListener {
 			if (frogger.getHealth() == 0) {
 				lives--;
 				content.remove(this.lives[lives].lbl);
-				content.repaint();
 				frogger.setSrc("frog_dead.png");
 				resetFrogger();
 			}
