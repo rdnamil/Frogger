@@ -33,7 +33,8 @@ public class Car extends Sprite implements Runnable {
 	@Override
 	public void run() {
 		while(moving) {
-            int pos = (int)(x + speed *dir);
+			int vel = (int)(speed *dir);
+            int pos = x +vel;
 
             if (pos > GameProperties.SCREEN_WIDTH +width) setX(-width);
             else if (pos < -width) setX(GameProperties.SCREEN_WIDTH +width);
