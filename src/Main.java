@@ -140,11 +140,11 @@ public class Main extends JFrame implements Runnable, ActionListener {
 		while(running) {
 			frogger.setHealth(1);
 
-			for (Car[] row : cars) for (Car car : row) if (frogger.hitbox.intersects(car.hitbox)) frogger.decreaseHealth();
+			for (Car[] row : cars) for (Car car : row) if (frogger.getHitbox().intersects(car.getHitbox())) frogger.decreaseHealth();
 
-			for (Log[] row : logs) for (Log log : row) if (frogger.hitbox.intersects(log.hitbox)) frogger.increaseHealth();
+			for (Log[] row : logs) for (Log log : row) if (frogger.getHitbox().intersects(log.getHitbox())) frogger.increaseHealth();
 
-			if (frogger.hitbox.intersects(waterHazard)) frogger.decreaseHealth();
+			if (frogger.getHitbox().intersects(waterHazard)) frogger.decreaseHealth();
 
 			if (frogger.getX() < 0 || frogger.getX() > GameProperties.SCREEN_WIDTH -frogger.getWidth()) frogger.decreaseHealth();
 
