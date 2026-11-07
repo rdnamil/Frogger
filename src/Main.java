@@ -124,7 +124,6 @@ public class Main extends JFrame implements Runnable, ActionListener {
     @Override
 	public void run() {
 		// int score = 0;
-		int lives = 3;
 
 		while(running) {
 			frogger.setHealth(1);
@@ -145,8 +144,6 @@ public class Main extends JFrame implements Runnable, ActionListener {
 			}
 
 			if (frogger.getHealth() == 0) {
-				lives--;
-				System.out.println(lives);
 				frogger.setSrc("frog_dead.png");
 				resetFrogger();
 			}
