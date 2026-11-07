@@ -31,7 +31,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
         frogger = new Frog(390, 720, content);
         waterHazard = new Rectangle(0, 0, GameProperties.SCREEN_WIDTH, 360);
 		goal = new Rectangle(0, 0, GameProperties.SCREEN_WIDTH, 60);
-        logs = new Log[5][3];
+        logs = new Log[5][4];
         for (int r = 0; r < logs.length; r++) for (int c = 0; c < logs[r].length; c++) {
 			logs[r][c] = new Log(
 				GameProperties.SCREEN_WIDTH /3 *c +120 *r,
@@ -41,7 +41,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
 				this.frogger
 			);
 		}
-        cars = new Car[5][3];
+        cars = new Car[5][4];
 		for (int r = 0; r < cars.length; r++) for (int c = 0; c < cars[r].length; c++) {
 			cars[r][c] = new Car(
 				GameProperties.SCREEN_WIDTH /3 *c +60 *r,
@@ -123,8 +123,6 @@ public class Main extends JFrame implements Runnable, ActionListener {
 
     @Override
 	public void run() {
-		// int score = 0;
-
 		while(running) {
 			frogger.setHealth(1);
 
@@ -140,7 +138,6 @@ public class Main extends JFrame implements Runnable, ActionListener {
 				frogger.increaseHealth();
 				scoreboard.increaseScore(50);
 				resetFrogger();
-
 			}
 
 			if (frogger.getHealth() == 0) {
