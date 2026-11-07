@@ -10,9 +10,9 @@ public class Main extends JFrame implements Runnable, ActionListener {
     private Sprite background;
     private Frog frogger;
     private Rectangle waterHazard;
+	private Rectangle goal;
     private Log[][] logs;
     private Car[][] cars;
-    private Goal[] goals;
     private Sprite[] lives;
     private Sprite gameOverScreen;
     private Sprite winScreen;
@@ -28,10 +28,10 @@ public class Main extends JFrame implements Runnable, ActionListener {
 		setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        this.background = new Sprite(0, 0, GameProperties.SCREEN_WIDTH, GameProperties.SCREEN_HEIGHT, "background.png");
-        this.frogger = new Frog(390, 720, this.content);
-        this.waterHazard = new Rectangle(0, 0, GameProperties.SCREEN_WIDTH, 360);
-
+        background = new Sprite(0, 0, GameProperties.SCREEN_WIDTH, GameProperties.SCREEN_HEIGHT, "background.png");
+        frogger = new Frog(390, 720, content);
+        waterHazard = new Rectangle(0, 0, GameProperties.SCREEN_WIDTH, 360);
+		goal = new Rectangle(0, 0, GameProperties.SCREEN_WIDTH, 60);
         logs = new Log[5][3];
         for (int r = 0; r < logs.length; r++) for (int c = 0; c < logs[r].length; c++) {
 			logs[r][c] = new Log(
@@ -52,11 +52,6 @@ public class Main extends JFrame implements Runnable, ActionListener {
 				(r %4) +1
 			);
 		}
-        goals = new Goal[5];
-		for (int g = 0; g < goals.length; g++) goals[g] = new Goal(
-			30 +180 *g,
-			0
-		);
 		lives = new Sprite[3];
 		for (int l = 0; l < lives.length; l++) lives[l] = new Sprite(
             GameProperties.SCREEN_WIDTH -30 *(l +1),
@@ -96,7 +91,6 @@ public class Main extends JFrame implements Runnable, ActionListener {
     public void start() {
         this.running = true;
         this.scoreboard.setScore(0);
-        for (Goal goal : goals) goal.setScored(false);
         this.t = new Thread(this, "Level1");
 		this.t.start();
         this.frogger.setMoving(true);
@@ -154,19 +148,11 @@ public class Main extends JFrame implements Runnable, ActionListener {
 
 			if (frogger.getX() < 0 || frogger.getX() > GameProperties.SCREEN_WIDTH -frogger.getWidth()) frogger.decreaseHealth();
 
-			for (Goal goal : goals) if (frogger.hitbox.intersects(goal.hitbox)) {
-				if (!goal.getScored()) {
-                    frogger.increaseHealth();
-					scoreboard.increaseScore(50);
-					content.add(goal.lbl);
-					content.setComponentZOrder(goal.lbl, 1);
-					goal.setScored(true);
+			if (frogger.getHitbox().intersects(goal)) {
+				frogger.increaseHealth();
+				scoreboard.increaseScore(50);
+				resetFrogger();
 
-					frogger.setX(goal.getX());
-					frogger.setY(goal.getY());
-					frogger.setSrc("goal.png");
-					resetFrogger();
-				}
 			}
 
 			if (frogger.getHealth() == 0) {
