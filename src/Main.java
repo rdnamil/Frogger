@@ -34,41 +34,37 @@ public class Main extends JFrame implements Runnable, ActionListener {
 
         logs = new Log[5][3];
         for (int r = 0; r < logs.length; r++) for (int c = 0; c < logs[r].length; c++) {
-				logs[r][c] = new Log(
-					GameProperties.SCREEN_WIDTH /3 *c +120 *r,
-					300 -60 *r,
-					r %2 > 0? -1 : 1,
-					2,
-					this.frogger
-				);
-			}
-
+			logs[r][c] = new Log(
+				GameProperties.SCREEN_WIDTH /3 *c +120 *r,
+				300 -60 *r,
+				r %2 > 0? -1 : 1,
+				2,
+				this.frogger
+			);
+		}
         cars = new Car[5][3];
 		for (int r = 0; r < cars.length; r++) for (int c = 0; c < cars[r].length; c++) {
-				cars[r][c] = new Car(
-					GameProperties.SCREEN_WIDTH /3 *c +60 *r,
-					660 -60 *r,
-					r %2 > 0? -1 : 1,
-					2,
-					(r %4) +1
-				);
-			}
-
+			cars[r][c] = new Car(
+				GameProperties.SCREEN_WIDTH /3 *c +60 *r,
+				660 -60 *r,
+				r %2 > 0? -1 : 1,
+				2,
+				(r %4) +1
+			);
+		}
         goals = new Goal[5];
 		for (int g = 0; g < goals.length; g++) goals[g] = new Goal(
 			30 +180 *g,
 			0
 		);
-
 		lives = new Sprite[3];
 		for (int l = 0; l < lives.length; l++) lives[l] = new Sprite(
-            810 -30 *l,
-            750,
+            GameProperties.SCREEN_WIDTH -30 *(l +1),
+            GameProperties.SCREEN_HEIGHT -30,
             30,
             30,
             "life.png"
 		);
-
 		gameOverScreen = new Sprite(
 			GameProperties.SCREEN_WIDTH /2 -193,
 			GameProperties.SCREEN_HEIGHT /2 -20,
@@ -81,16 +77,19 @@ public class Main extends JFrame implements Runnable, ActionListener {
 		);
 
         this.content.setFocusable(true);
-
 		this.running = false;
-
 		scoreboard = new Score();
-
         playBtn = new JButton("START");
         playBtn.setSize(100, 45);
         playBtn.setLocation(370, 420);
         this.content.add(playBtn);
         playBtn.addActionListener(this);
+
+		content.add(scoreboard.getContent());
+		this.content.add(this.frogger.lbl);
+		for (Log[] row : this.logs) for (Log log : row) this.content.add(log.lbl);
+        for (Car[] row : this.cars) for (Car car : row) this.content.add(car.lbl);
+        for (Sprite lives : this.lives) this.content.add(lives.lbl);
         this.content.add(this.background.lbl);
     }
 
@@ -100,35 +99,17 @@ public class Main extends JFrame implements Runnable, ActionListener {
         for (Goal goal : goals) goal.setScored(false);
         this.t = new Thread(this, "Level1");
 		this.t.start();
-        this.content.removeAll();
-		content.add(scoreboard.getContent());
         this.frogger.setMoving(true);
-		this.content.add(this.frogger.lbl);
-		for (Log[] row : this.logs) for (Log log : row) {
-			log.setMoving(true);
-			this.content.add(log.lbl);
-		}
-        for (Car[] row : this.cars) for (Car car : row) {
-			car.setMoving(true);
-			this.content.add(car.lbl);
-        }
-        for (Sprite lives : this.lives) this.content.add(lives.lbl);
-        this.content.add(this.background.lbl);
-
+		for (Log[] row : this.logs) for (Log log : row) log.setMoving(true);
+        for (Car[] row : this.cars) for (Car car : row) car.setMoving(true);
+        for (Sprite life : this.lives) life.setY(750);
     }
 
     public void stop() {
         this.running = false;
         this.frogger.setMoving(false);
-		this.content.remove(this.frogger.lbl);
-		for (Log[] row : logs) for (Log log : row) {
-            log.setMoving(false);
-            this.content.remove(log.lbl);
-		}
-        for (Car[] row : cars) for (Car car : row) {
-            car.setMoving(false);
-            this.content.remove(car.lbl);
-        }
+		for (Log[] row : logs) for (Log log : row) log.setMoving(false);
+        for (Car[] row : cars) for (Car car : row) car.setMoving(false);
     }
 
     public void resetFrogger() {
@@ -190,7 +171,9 @@ public class Main extends JFrame implements Runnable, ActionListener {
 
 			if (frogger.getHealth() == 0) {
 				lives--;
-				content.remove(this.lives[lives].lbl);
+				System.out.println(lives);
+				// content.remove(this.lives[lives].lbl);
+				this.lives[lives].setY(-this.lives[lives].getHeight()); // removing doesn't consistently update so move sprite off screen for same effect
 				frogger.setSrc("frog_dead.png");
 				resetFrogger();
 			}
