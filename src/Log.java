@@ -51,7 +51,7 @@ public class Log extends Sprite implements Runnable {
             else if (pos < -width) setX(GameProperties.SCREEN_WIDTH +width);
             else setX(pos);
 
-			if (hitbox.intersects(frogger.getHitbox())) frogger.setX(frogger.getX() +vel);
+			if (hitbox.intersects(frogger.getHitbox()) && frogger.getMoving()) frogger.setX(frogger.getX() +vel);
 
 			try {
 				Thread.sleep(17);
