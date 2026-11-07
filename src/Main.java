@@ -13,7 +13,6 @@ public class Main extends JFrame implements Runnable, ActionListener {
 	private Rectangle goal;
     private Log[][] logs;
     private Car[][] cars;
-    private Sprite[] lives;
     private Sprite gameOverScreen;
     private Sprite winScreen;
     private JButton playBtn;
@@ -52,14 +51,6 @@ public class Main extends JFrame implements Runnable, ActionListener {
 				(r %4) +1
 			);
 		}
-		lives = new Sprite[3];
-		for (int l = 0; l < lives.length; l++) lives[l] = new Sprite(
-            GameProperties.SCREEN_WIDTH -30 *(l +1),
-            GameProperties.SCREEN_HEIGHT -30,
-            30,
-            30,
-            "life.png"
-		);
 		gameOverScreen = new Sprite(
 			GameProperties.SCREEN_WIDTH /2 -193,
 			GameProperties.SCREEN_HEIGHT /2 -20,
@@ -84,7 +75,6 @@ public class Main extends JFrame implements Runnable, ActionListener {
 		this.content.add(this.frogger.lbl);
 		for (Log[] row : this.logs) for (Log log : row) this.content.add(log.lbl);
         for (Car[] row : this.cars) for (Car car : row) this.content.add(car.lbl);
-        for (Sprite lives : this.lives) this.content.add(lives.lbl);
         this.content.add(this.background.lbl);
     }
 
@@ -96,7 +86,6 @@ public class Main extends JFrame implements Runnable, ActionListener {
         this.frogger.setMoving(true);
 		for (Log[] row : this.logs) for (Log log : row) log.setMoving(true);
         for (Car[] row : this.cars) for (Car car : row) car.setMoving(true);
-        for (Sprite life : this.lives) life.setY(750);
     }
 
     public void stop() {
@@ -158,20 +147,8 @@ public class Main extends JFrame implements Runnable, ActionListener {
 			if (frogger.getHealth() == 0) {
 				lives--;
 				System.out.println(lives);
-				// content.remove(this.lives[lives].lbl);
-				this.lives[lives].setY(-this.lives[lives].getHeight()); // removing doesn't consistently update so move sprite off screen for same effect
 				frogger.setSrc("frog_dead.png");
 				resetFrogger();
-			}
-
-			if (lives == 0) {
-				System.out.println("You lose :(");
-				content.add(gameOverScreen.lbl);
-				content.setComponentZOrder(gameOverScreen.lbl, 0);
-				playBtn.setText("REPLAY");
-				content.add(playBtn);
-				content.setComponentZOrder(playBtn, 0);
-				stop();
 			}
 
 			if (scoreboard.getScore() == 250) {
