@@ -1,7 +1,7 @@
 public class Log extends Sprite implements Runnable {
     private int dir;
     private Frog frogger;
-    private int speed;
+    private double speed;
 
     private Thread t;
 
@@ -34,7 +34,7 @@ public class Log extends Sprite implements Runnable {
         this.frogger = frogger;
     }
 
-    public Log(int x, int y, int dir, int speed, Frog frogger) {
+    public Log(int x, int y, int dir, double speed, Frog frogger) {
         super(x, y, 150, 60, "log.png");
         this.dir = dir;
 		this.speed = speed;
@@ -46,11 +46,11 @@ public class Log extends Sprite implements Runnable {
 		while(moving) {
 
             if (hitbox.intersects(frogger.hitbox) && frogger.getHealth() > 0) {
-                frogger.setX(frogger.getX() +speed *dir);
+                frogger.setX(frogger.getX() +(int)(speed *dir));
                 frogger.lbl.setLocation(frogger.getX(), frogger.getY());
             }
 
-            int pos = x + speed *dir;
+            int pos = (int)(x + speed *dir);
 
             if (pos > GameProperties.SCREEN_WIDTH +width) setX(-width);
             else if (pos < -width) setX(GameProperties.SCREEN_WIDTH +width);

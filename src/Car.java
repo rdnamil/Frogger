@@ -1,6 +1,6 @@
 public class Car extends Sprite implements Runnable {
     private int dir;
-    private int speed;
+    private double speed;
 
     private Thread t;
 
@@ -24,7 +24,7 @@ public class Car extends Sprite implements Runnable {
         this.speed = 5;
     }
 
-    public Car(int x, int y, int dir, int speed, int car) {
+    public Car(int x, int y, int dir, double speed, int car) {
         super(x, y, 60, 60, "car_0" +car +".png");
         this.dir = dir;
         this.speed = speed;
@@ -33,7 +33,7 @@ public class Car extends Sprite implements Runnable {
 	@Override
 	public void run() {
 		while(moving) {
-            int pos = x + speed *dir;
+            int pos = (int)(x + speed *dir);
 
             if (pos > GameProperties.SCREEN_WIDTH +width) setX(-width);
             else if (pos < -width) setX(GameProperties.SCREEN_WIDTH +width);

@@ -37,7 +37,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
 				GameProperties.SCREEN_WIDTH /3 *c +120 *r,
 				300 -60 *r,
 				r %2 > 0? -1 : 1,
-				2,
+				2 +0.5 *r,
 				this.frogger
 			);
 		}
@@ -47,7 +47,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
 				GameProperties.SCREEN_WIDTH /3 *c +60 *r,
 				660 -60 *r,
 				r %2 > 0? -1 : 1,
-				2,
+				2 +0.5 *r,
 				(r %4) +1
 			);
 		}
