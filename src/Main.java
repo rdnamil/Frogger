@@ -34,7 +34,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
         logs = new Log[5][4];
         for (int r = 0; r < logs.length; r++) for (int c = 0; c < logs[r].length; c++) {
 			logs[r][c] = new Log(
-				GameProperties.SCREEN_WIDTH /3 *c +120 *r,
+				GameProperties.SCREEN_WIDTH /3 *c +(GameProperties.SCREEN_WIDTH %120) *r,
 				300 -60 *r,
 				r %2 > 0? -1 : 1,
 				2 +0.5 *r,
