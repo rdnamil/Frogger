@@ -1,5 +1,7 @@
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import java.awt.Container;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -17,6 +19,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
     private Sprite winScreen;
     private JButton playBtn;
     private JButton submtBtn;
+    private JButton shwHsBtn;
     private Boolean running;
     private Score scoreboard;
     private Database highscores;
@@ -70,15 +73,20 @@ public class Main extends JFrame implements Runnable, ActionListener {
 		highscores = new Database();
         playBtn = new JButton("START");
         playBtn.setFocusable(false);
+		playBtn.addActionListener(this);
         playBtn.setSize(100, 45);
-        playBtn.setLocation(370, 420);
         this.content.add(playBtn);
-        playBtn.addActionListener(this);
         submtBtn = new JButton("SUBMIT SCORE");
         submtBtn.setFocusable(false);
-        submtBtn.setSize(150, 45);
-        submtBtn.setLocation(470, 420);
+        submtBtn.addActionListener(this);
+        submtBtn.setSize(125, 45);
         this.content.add(submtBtn);
+        shwHsBtn = new JButton("VIEW SCORES");
+        shwHsBtn.setFocusable(false);
+        shwHsBtn.addActionListener(this);
+        shwHsBtn.setSize(115, 45);
+        this.content.add(shwHsBtn);
+        resetButtons();
 
 		content.add(scoreboard.getContent());
 		this.content.add(this.frogger.lbl);
@@ -89,6 +97,8 @@ public class Main extends JFrame implements Runnable, ActionListener {
 
     public void start() {
 		playBtn.setLocation(0, GameProperties.SCREEN_WIDTH); // removing then adding has inconsistent results without repaint() so move off screen for same effect
+		submtBtn.setLocation(0, GameProperties.SCREEN_WIDTH);
+		shwHsBtn.setLocation(0, GameProperties.SCREEN_WIDTH);
         this.running = true;
         // this.scoreboard.setScore(0);
         this.t = new Thread(this, "Level1");
@@ -126,6 +136,13 @@ public class Main extends JFrame implements Runnable, ActionListener {
 		}
 	}
 
+	public void resetButtons() {
+		playBtn.setLocation((int)(GameProperties.SCREEN_WIDTH /2 -playBtn.getSize().width /2), (int)(GameProperties.SCREEN_HEIGHT /2 -playBtn.getSize().height /2));
+        submtBtn.setLocation((int)(GameProperties.SCREEN_WIDTH /2 -submtBtn.getSize().width /2), playBtn.getLocation().y +submtBtn.getSize().height);
+        shwHsBtn.setLocation((int)(GameProperties.SCREEN_WIDTH /2 -shwHsBtn.getSize().width /2), submtBtn.getLocation().y +shwHsBtn.getSize().height);
+
+	}
+
     public static void main(String[] args) {
         Main main = new Main();
         main.setVisible(true);
@@ -144,21 +161,20 @@ public class Main extends JFrame implements Runnable, ActionListener {
 
 			if (frogger.getX() < 0 || frogger.getX() > GameProperties.SCREEN_WIDTH -frogger.getWidth()) frogger.decreaseHealth();
 
-			if (frogger.getHitbox().intersects(goal)) {
+			if (frogger.getHitbox().intersects(goal) || frogger.getHealth() == 0) {
+				if (frogger.getHitbox().intersects(goal)) {
 				frogger.increaseHealth();
 				scoreboard.increaseScore(50);
-				resetFrogger();
-				playBtn.setText("RESTART");
-				playBtn.setLocation(370, 420);
-				stop();
-			}
 
-			if (frogger.getHealth() == 0) {
-				frogger.setSrc("frog_dead.png");
-				scoreboard.increaseScore(-50);
+				} else if (frogger.getHealth() == 0) {
+					frogger.setSrc("frog_dead.png");
+					scoreboard.increaseScore(-50);
+
+				}
+
 				resetFrogger();
 				playBtn.setText("RESTART");
-				playBtn.setLocation(370, 420);
+				resetButtons();
 				stop();
 			}
 
@@ -183,7 +199,11 @@ public class Main extends JFrame implements Runnable, ActionListener {
 			start();
 
 		} else if (e.getSource() == submtBtn) {
-			start();
+			highscores.insertHighscore(JOptionPane.showInputDialog(null, "Please enter your name:"), scoreboard.getScore());
+			scoreboard.setScore(0);
+
+		} else if (e.getSource() == shwHsBtn) {
+			highscores.displayHighscores();
 
 		} else System.out.println("Unkown command");
 	}
