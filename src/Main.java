@@ -16,8 +16,10 @@ public class Main extends JFrame implements Runnable, ActionListener {
     private Sprite gameOverScreen;
     private Sprite winScreen;
     private JButton playBtn;
+    private JButton submtBtn;
     private Boolean running;
     private Score scoreboard;
+    private Database highscores;
     private Thread t;
 
     public Main() {
@@ -65,12 +67,18 @@ public class Main extends JFrame implements Runnable, ActionListener {
         this.content.setFocusable(true);
 		this.running = false;
 		scoreboard = new Score();
+		highscores = new Database();
         playBtn = new JButton("START");
         playBtn.setFocusable(false);
         playBtn.setSize(100, 45);
         playBtn.setLocation(370, 420);
         this.content.add(playBtn);
         playBtn.addActionListener(this);
+        submtBtn = new JButton("SUBMIT SCORE");
+        submtBtn.setFocusable(false);
+        submtBtn.setSize(150, 45);
+        submtBtn.setLocation(470, 420);
+        this.content.add(submtBtn);
 
 		content.add(scoreboard.getContent());
 		this.content.add(this.frogger.lbl);
@@ -80,6 +88,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
     }
 
     public void start() {
+		playBtn.setLocation(0, GameProperties.SCREEN_WIDTH); // removing then adding has inconsistent results without repaint() so move off screen for same effect
         this.running = true;
         // this.scoreboard.setScore(0);
         this.t = new Thread(this, "Level1");
@@ -171,7 +180,9 @@ public class Main extends JFrame implements Runnable, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == playBtn) {
-            playBtn.setLocation(0, GameProperties.SCREEN_WIDTH); // removing then adding has inconsistent results without repaint() so move off screen for same effect
+			start();
+
+		} else if (e.getSource() == submtBtn) {
 			start();
 
 		} else System.out.println("Unkown command");
