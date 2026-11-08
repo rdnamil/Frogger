@@ -60,7 +60,7 @@ public class Score {
     }
 
     public void increaseScore(int adjustment) {
-        this.score += adjustment;
+        this.score = Math.max(this.score +adjustment, 0);
 
         for (int i = 0; i < scoreboard.length; i++) this.scoreboard[i].setSrc("scoreboard/digit_" +String.format("%04d", this.score).charAt(i) +".png");
     }

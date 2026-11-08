@@ -66,6 +66,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
 		this.running = false;
 		scoreboard = new Score();
         playBtn = new JButton("START");
+        playBtn.setFocusable(false);
         playBtn.setSize(100, 45);
         playBtn.setLocation(370, 420);
         this.content.add(playBtn);
@@ -80,7 +81,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
 
     public void start() {
         this.running = true;
-        this.scoreboard.setScore(0);
+        // this.scoreboard.setScore(0);
         this.t = new Thread(this, "Level1");
 		this.t.start();
         this.frogger.setMoving(true);
@@ -138,20 +139,17 @@ public class Main extends JFrame implements Runnable, ActionListener {
 				frogger.increaseHealth();
 				scoreboard.increaseScore(50);
 				resetFrogger();
+				playBtn.setText("RESTART");
+				playBtn.setLocation(370, 420);
+				stop();
 			}
 
 			if (frogger.getHealth() == 0) {
 				frogger.setSrc("frog_dead.png");
+				scoreboard.increaseScore(-50);
 				resetFrogger();
-			}
-
-			if (scoreboard.getScore() == 250) {
-				System.out.println("You win!");
-				content.add(winScreen.lbl);
-				content.setComponentZOrder(winScreen.lbl, 0);
-				playBtn.setText("REPLAY");
-				content.add(playBtn);
-				content.setComponentZOrder(playBtn, 0);
+				playBtn.setText("RESTART");
+				playBtn.setLocation(370, 420);
 				stop();
 			}
 
@@ -173,7 +171,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == playBtn) {
-            content.remove(playBtn);
+            playBtn.setLocation(0, GameProperties.SCREEN_WIDTH); // removing then adding has inconsistent results without repaint() so move off screen for same effect
 			start();
 
 		} else System.out.println("Unkown command");
