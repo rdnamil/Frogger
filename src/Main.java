@@ -71,7 +71,7 @@ public class Main extends JFrame implements Runnable, ActionListener {
 		this.running = false;
 		scoreboard = new Score();
 		highscores = new Database();
-        playBtn = new JButton("START");
+        playBtn = new JButton("PLAY");
         playBtn.setFocusable(false);
 		playBtn.addActionListener(this);
         playBtn.setSize(100, 45);
@@ -173,7 +173,6 @@ public class Main extends JFrame implements Runnable, ActionListener {
 				}
 
 				resetFrogger();
-				playBtn.setText("RESTART");
 				resetButtons();
 				stop();
 			}
