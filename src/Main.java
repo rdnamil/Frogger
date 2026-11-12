@@ -15,8 +15,6 @@ public class Main extends JFrame implements Runnable, ActionListener {
 	private Rectangle goal;
     private Log[][] logs;
     private Car[][] cars;
-    private Sprite gameOverScreen;
-    private Sprite winScreen;
     private JButton playBtn;
     private JButton submtBtn;
     private JButton shwHsBtn;
@@ -56,16 +54,6 @@ public class Main extends JFrame implements Runnable, ActionListener {
 				(r %4) +1
 			);
 		}
-		gameOverScreen = new Sprite(
-			GameProperties.SCREEN_WIDTH /2 -193,
-			GameProperties.SCREEN_HEIGHT /2 -20,
-			385, 40, "game_over.png"
-		);
-		winScreen = new Sprite(
-			GameProperties.SCREEN_WIDTH /2 -144,
-			GameProperties.SCREEN_HEIGHT /2 -20,
-			287, 40, "you_win.png"
-		);
 
         this.content.setFocusable(true);
 		this.running = false;
